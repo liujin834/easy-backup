@@ -1,0 +1,42 @@
+#!/bin/bash
+
+backuplistdir=/data/backup
+backuplistfile=$backuplistdir/database-backup.list
+backupstoredir=$backuplistdir/database
+
+linecount=`wc -l $backuplistfile | awk '{print $1}'`
+
+if [ $linecount -lt 3 ]
+then
+	echo lack backup files
+else
+	toremove=$[$linecount - 2]
+
+	if [ $toremove -lt 1 ]
+		then
+		echo nothing to remove
+		exit 0
+	fi
+
+	head -$toremove $backuplistfile | while read line
+	do
+		file=$(basename $line)
+		fullpath=$backupstoredir/$file
+		if [ ! -f $fullpath ]
+		then
+			echo $fullpath not exists, remove from list!
+		else
+			rm $fullpath
+			echo $fullpath removed
+		fi
+	done
+fi
+
+filelist=`ls $backupstoredir`
+for filename in $filelist
+do
+	echo $filename >> $backuplistfile.tmp
+done
+# OSX or FreeBSD : sed -i '' '/^\s*$/d' $backuplistfile.tmp
+sed -i '/^\s*$/d' $backuplistfile.tmp
+mv $backuplistfile.tmp $backuplistfile
