@@ -1,6 +1,14 @@
 #!/bin/sh
 datetime=$(date +"%Y%m%d%H%M%S")
 dbname=mydatabase
+character=utf8mb4
 
-mysqldump -uroot -R --databases --add-drop-database --default-character-set=utf8 -h 127.0.0.1 $dbname > /data/backup/$dbname-backup-$datetime.sql
-echo /data/backup/$dbname-backup-$datetime.sql >> /data/backup/database-backup.list
+/usr/local/mysql/bin/mysqldump \
+        -uroot \
+        --routines \
+        --databases \
+        --add-drop-database \
+        --default-character-set=$character \
+         -h 127.0.0.1 $dbname \
+   > /data/backup/database/$dbname-backup-$datetime.sql
+echo /data/backup/database/$dbname-backup-$datetime.sql >> /data/backup/database-backup.list
