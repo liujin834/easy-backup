@@ -6,11 +6,9 @@ backuplistfile=$backuplistdir/database-backup.list
 host=www.server.com
 scp $user@$host:/data/backup/database-backup.list $backuplistfile
 
-tail -1 $backuplistfile | while read line
-do
- echo $line
- basename $line | while read fe
- do
-  scp $user@$host:$line $backuplistdir/$fe
- done
-done
+line=$(tail -1 $backuplistfile)
+filename=$(basename $line)
+
+scp $user@$host:$line $backuplistdir/database/$fe
+
+echo "backup file saved to ": $backuplistdir/database/$filename
