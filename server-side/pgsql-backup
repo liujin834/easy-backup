@@ -1,0 +1,16 @@
+#!/bin/sh
+ 
+bin=pg_dump
+datetime=$(date +"%Y%m%d")
+file="/data/backup/database/database_$datetime.backup"
+ 
+$bin \
+--host=localhost \
+--port=5432 \
+--username=pg_user \
+--format=c \
+--blobs \
+--verbose \
+--file=$file \
+--no-password \
+--dbname=database
