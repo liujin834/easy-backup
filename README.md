@@ -44,4 +44,11 @@ run
 
 to download leatest backup file
 
+### postgresql
+
+pg_dump require password by default, there are some method reslove password problem
+
+1.use enviroment variables http://www.postgresql.org/docs/current/interactive/libpq-envars.html
+2.change pg_hba.conf and use --no-password http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
+
 ### use ssh-key
